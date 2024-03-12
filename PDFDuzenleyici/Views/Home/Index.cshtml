@@ -1,0 +1,333 @@
+﻿@model ContentViewModel
+
+
+<style>
+    /* Temel stil ayarları */
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        text-align: center;
+    }
+
+    /* PDF benzeri boyut div'i */
+    .pdf-like-container {
+        width: 100%;
+        height: 600px;
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin: 0 auto;
+        margin-top: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .content {
+        font-size: 24px;
+        transform: rotate(+45deg); /* Yazıyı saat yönünde 45 derece döndür */
+    }
+</style>
+
+<div class="container">
+  <div class="row">
+      <div class="float-left col-md-6">
+            <h5 class="text-center">Water Mark İşlemi</h5>
+            <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="login-tab" data-bs-toggle="tab" href="#login" role="tab" aria-controls="login" aria-selected="true">Yazı Ekle</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="register-tab" data-bs-toggle="tab" href="#register" role="tab" aria-controls="register" aria-selected="false">Fotoğraf Ekle</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+                <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
+                    <form asp-controller="Home" asp-action="UploadText" class="row mt-4 mb-5 align-items-center" method="post" enctype="multipart/form-data">
+                        <div class="mb-3 col-sm-12">
+                            <input class="form-control" type="file" name="uploadedFile" placeholder="PDF Yükle" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <input class="form-control" type="text" name="WatermarkText" placeholder="Watermark Yazısı" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            
+                            <input class="form-control" type="number" name="YaziBoyutu" placeholder="Yazi Boyutu" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <div class="row">
+                                <div class="col-md-3 float-left">
+                                    <label >Yazı Rengi</label>
+
+                                </div>
+
+                                <div class="col-md-3">
+                                    <input class="form-control" type="color" name="YaziRengi" placeholder="Yazi Rengi" required />
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <select class="form-control" name="YaziStili" required>
+                                <option value="Bold">Bold</option>
+                                <option value="Italic">Italic</option>
+                                <option value="Underline">Underline</option>
+                                <option value="Strikeout">Strikeout</option>
+                                <option value="UnderlineItalic">UnderlineItalic</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <select class="form-control" name="YaziAilesi" required>
+                                <option value="Arial">Arial</option>
+                                <option value="Times New Roman">Times New Roman</option>
+                                <option value="Verdana">Verdana</option>
+                                <option value="Helvetica">Helvetica</option>
+                                <option value="Georgia">Georgia</option>
+                                <option value="Palatino">Palatino</option>
+                                <option value="Courier New">Courier New</option>
+                                <option value="Impact">Impact</option>
+                                <option value="Tahoma">Tahoma</option>
+                                <option value="Comic Sans MS">Comic Sans MS</option>
+                                <option value="Trebuchet MS">Trebuchet MS</option>
+                                <option value="Century Gothic">Century Gothic</option>
+                                <option value="Lucida Sans">Lucida Sans</option>
+                                <option value="Arial Black">Arial Black</option>
+                                <option value="Calibri">Calibri</option>
+                                <option value="Gill Sans">Gill Sans</option>
+                                <option value="Book Antiqua">Book Antiqua</option>
+                                <option value="Candara">Candara</option>
+                                <option value="Franklin Gothic">Franklin Gothic</option>
+                                <option value="Myriad Pro">Myriad Pro</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <select class="form-control" name="Transparanlik" required>
+                                <option value="1">%10</option>
+                                <option value="2">%20</option>
+                                <option value="3">%30</option>
+                                <option value="4">%40</option>
+                                <option value="5">%50</option>
+                                <option value="6">%60</option>
+                                <option value="7">%70</option>
+                                <option value="8">%80</option>
+                                <option value="9">%90</option>
+                                <option value="10">%100</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <select class="form-control" name="WatermarkMetinYerlesimi" required>
+                                <option value="orta">Ortada</option>
+                                <option value="sola">Sola</option>
+                                <option value="saga">Sağa</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 d-grid">
+                            <input type="submit" class="form-control btn btn-primary" value="PDF Yükle" />
+
+                        </div>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
+                    <form asp-controller="Home" asp-action="UploadFoto" class="row mt-4 mb-5 align-items-center" method="post" enctype="multipart/form-data">
+                        <div class="mb-3 col-sm-12">
+                            <input class="form-control" type="file" name="uploadedFile" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <input class="form-control" type="file" name="UploadFoto" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <input class="form-control" type="number" name="FotografYatayBoyutu" placeholder="Yatay Uzunluk" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <input class="form-control" type="number" name="FotografDikeyBoyutu" placeholder="Dikey Uzunluk" required />
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <select class="form-control" name="Transparanlik1" required>
+                                <option value="1">%10</option>
+                                <option value="2">%20</option>
+                                <option value="3">%30</option>
+                                <option value="4">%40</option>
+                                <option value="5">%50</option>
+                                <option value="6">%60</option>
+                                <option value="7">%70</option>
+                                <option value="8">%80</option>
+                                <option value="9">%90</option>
+                                <option value="10">%100</option>
+                            </select>
+                        </div>
+                        <div class="mb-3 col-sm-12">
+                            <select class="form-control" name="MetinYerlesimi" required>
+                                <option value="orta">Ortada</option>
+
+                                <option value="sola">Sola</option>
+                                <option value="saga">Sağa</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-12 d-grid">
+                            <input type="submit" class="form-control btn btn-primary" value="PDF Yükle" />
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+      </div>
+      <div class="float-left col-md-5">
+          <h3 class="text-center">PDF Görünümü</h3>
+            <div class="pdf-like-container">
+                <div class="content">
+                </div>
+            </div>
+      </div>
+  </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Form elemanlarını seçin
+        var watermarkText = document.querySelector('input[name="WatermarkText"]');
+        var yaziBoyutu = document.querySelector('input[name="YaziBoyutu"]');
+        var yaziRengi = document.querySelector('input[name="YaziRengi"]');
+        var yaziStili = document.querySelector('select[name="YaziStili"]');
+        var yaziAilesi = document.querySelector('select[name="YaziAilesi"]');
+        var transparanlik = document.querySelector('select[name="Transparanlik"]');
+        var watermarkMetinYerlesimiSelect = document.querySelector('select[name="WatermarkMetinYerlesimi"]');
+
+        var contentDiv = document.querySelector('.content');
+        // Form elemanlarının değeri değiştiğinde bu işlevi çağırın
+        watermarkText.addEventListener("input", updateWatermarkYazi);
+        yaziBoyutu.addEventListener("input", updateWatermarkYazi);
+        yaziRengi.addEventListener("input", updateWatermarkYazi);
+        yaziStili.addEventListener("change", updateWatermarkYazi);
+        yaziAilesi.addEventListener("change", updateWatermarkYazi);
+        transparanlik.addEventListener("change", updateWatermarkYazi);
+        watermarkMetinYerlesimiSelect.addEventListener("change", updateWatermarkMetinYerlesimi);
+
+        // Watermark'ı güncelleyen işlev
+        function updateWatermarkYazi() {
+            contentDiv.innerHTML = "";
+            contentDiv.innerText = watermarkText.value;
+            contentDiv.style.fontSize = yaziBoyutu.value + "px";
+            contentDiv.style.color = yaziRengi.value;
+            contentDiv.style.fontWeight = (yaziStili.value === "Bold") ? "bold" : "normal";
+            contentDiv.style.fontStyle = (yaziStili.value === "Italic") ? "italic" : "normal";
+            contentDiv.style.textDecoration = (yaziStili.value === "Underline" || yaziStili.value === "UnderlineItalic") ? "underline" : "none";
+            contentDiv.style.fontFamily = yaziAilesi.value;
+            contentDiv.style.opacity = (parseInt(transparanlik.value) / 10).toString();
+        }
+        function updateWatermarkMetinYerlesimi() {
+            var watermarkMetinYerlesimi = watermarkMetinYerlesimiSelect.value;
+            if (watermarkMetinYerlesimi === "sola") {
+                contentDiv.style.transform = "rotate(-45deg)";
+            } else if (watermarkMetinYerlesimi === "saga") {
+                contentDiv.style.transform = "rotate(45deg)";
+            } else {
+                contentDiv.style.transform = "none"; // Ortada
+            }
+        }
+
+        updateWatermarkMetinYerlesimi();
+
+        updateWatermarkYazi();
+    });
+</script>
+
+            <script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Form elemanlarını seçin
+        var uploadedFileInput = document.querySelector('input[name="UploadFoto"]');
+        var fotoTransparanlik = document.querySelector('select[name="Transparanlik1"]');
+        var yatayBoyutInput = document.querySelector('input[name="FotografYatayBoyutu"]');
+        var dikeyBoyutInput = document.querySelector('input[name="FotografDikeyBoyutu"]');
+        var metinYerlesimiSelect = document.querySelector('select[name="MetinYerlesimi"]');
+
+        var fotoDiv = document.querySelector('.content');
+
+        // Fotoğraf yüklendiğinde bu işlevi çağırın
+        uploadedFileInput.addEventListener("change", function (event) {
+            fotoDiv.innerHTML = "";
+            var file = event.target.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    var img = document.createElement("img");
+                    img.src = e.target.result;
+
+                    // Dikey ve yatay boyutları ayarlayın
+                    var yatayBoyut = parseInt(yatayBoyutInput.value);
+                    var dikeyBoyut = parseInt(dikeyBoyutInput.value);
+
+                    img.style.width = yatayBoyut + "px";
+                    img.style.height = dikeyBoyut + "px";
+
+                    // Metin yerleşimine göre dönüş açısını ayarlayın
+                    var metinYerlesimi = metinYerlesimiSelect.value;
+                    fotoDiv.style.transform = "none"; // Ortada
+
+                    img.style.transform = "none"; // Ortada
+
+
+                    // Resmi ekleyin
+                    fotoDiv.appendChild(img);
+
+
+                        img.style.opacity = (parseInt(fotoTransparanlik.value)*5 / 10).toString();
+
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                fotoDiv.innerHTML = ""; // Fotoğraf seçilmediğinde içeriği temizleyin
+            }
+        });
+
+        // Dikey uzunluk ve yatay uzunluk değerleri değiştiğinde
+        yatayBoyutInput.addEventListener("input", function () {
+            var img = fotoDiv.querySelector("img");
+            if (img) {
+                var yatayBoyut = parseInt(yatayBoyutInput.value);
+                var dikeyBoyut = parseInt(dikeyBoyutInput.value);
+                img.style.width = yatayBoyut + "px";
+                img.style.height = dikeyBoyut + "px";
+            }
+        });
+
+        dikeyBoyutInput.addEventListener("input", function () {
+            var img = fotoDiv.querySelector("img");
+            if (img) {
+                var yatayBoyut = parseInt(yatayBoyutInput.value);
+                var dikeyBoyut = parseInt(dikeyBoyutInput.value);
+                img.style.width = yatayBoyut + "px";
+                img.style.height = dikeyBoyut + "px";
+            }
+        });
+
+        // Transparanlık seçeneği değiştiğinde
+        fotoTransparanlik.addEventListener("change", function () {
+            var img = fotoDiv.querySelector("img");
+            if (img) {
+                img.style.opacity = (parseInt(fotoTransparanlik.value) / 10).toString();
+
+            }
+        });
+
+        // Metin yerleşimi seçeneği değiştiğinde
+        metinYerlesimiSelect.addEventListener("change", function () {
+            var img = fotoDiv.querySelector("img");
+            if (img) {
+                var metinYerlesimi = metinYerlesimiSelect.value;
+                img.style.transform = "none"; // Ortada
+
+                if (metinYerlesimi === "sola") {
+                    img.style.transform = "rotate(-45deg)";
+                } else if (metinYerlesimi === "saga") {
+                    img.style.transform = "rotate(45deg)";
+                } else if (metinYerlesimi === "ortada") {
+                    img.style.transform = "none"; // Ortada
+                }
+            }
+        });
+    });
+
+
+            </script>
